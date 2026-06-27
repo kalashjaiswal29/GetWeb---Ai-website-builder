@@ -4,7 +4,7 @@ import Register from "./features/auth/pages/register";
 import Home from "./features/home/pages/home";
 import Protected from "./features/auth/components/protected";
 import DashboardPage from "./features/project/pages/dashboard";
-import ProjectWorkspacePage from "./features/project/pages/projectWorkspace";
+import ProjectWorkspacePage from "./features/project/pages/projectworkspace";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
