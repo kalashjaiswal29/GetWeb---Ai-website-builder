@@ -1,0 +1,280 @@
+/* ═══════════════════════════════════════════════════════════════════
+   modal.module.css — Project Title Modal
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Full-screen overlay ─────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  /* Fade in */
+  animation: overlayIn 0.22s ease forwards;
+}
+
+.overlayExiting {
+  animation: overlayOut 0.2s ease forwards;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes overlayOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ─── Modal Card ──────────────────────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(18, 19, 21, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255, 92, 0, 0.08),
+    0 32px 80px rgba(0, 0, 0, 0.7),
+    0 0 60px rgba(255, 92, 0, 0.06);
+  position: relative;
+
+  /* Scale + fade in */
+  animation: cardIn 0.28s cubic-bezier(0.34, 1.4, 0.64, 1) forwards;
+}
+
+.cardExiting {
+  animation: cardOut 0.2s ease forwards;
+}
+
+@keyframes cardIn {
+  from { opacity: 0; transform: scale(0.88) translateY(20px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0); }
+}
+@keyframes cardOut {
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to   { opacity: 0; transform: scale(0.9) translateY(10px); }
+}
+
+/* ─── Decorative orange top-edge glow bar ─────────────────────────── */
+.cardTopGlow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #ff5c00 40%, #ff8c4b 60%, transparent 100%);
+  opacity: 0.85;
+}
+
+/* ─── Radial background glow ─────────────────────────────────────── */
+.cardBgGlow {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 200px;
+  background: radial-gradient(ellipse at center, rgba(255,92,0,0.07) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Header Section ─────────────────────────────────────────────── */
+.header {
+  padding: 28px 28px 0;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.iconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(255, 92, 0, 0.1);
+  border: 1px solid rgba(255, 92, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--color-primary);
+  box-shadow: 0 4px 16px rgba(255, 92, 0, 0.15);
+}
+
+.titleGroup { display: flex; flex-direction: column; gap: 5px; }
+
+.modalTitle {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-on-surface);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.modalSubtitle {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.65;
+  line-height: 1.5;
+}
+
+/* ─── Body / Input Section ───────────────────────────────────────── */
+.body {
+  padding: 20px 28px 28px;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.fieldGroup { display: flex; flex-direction: column; gap: 8px; }
+
+.fieldLabel {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(228, 190, 177, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+/* Input wrapper — matches promptTerminal style */
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0 16px;
+  height: 52px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.inputWrap:focus-within {
+  border-color: rgba(255, 92, 0, 0.45);
+  box-shadow: 0 0 0 3px rgba(255, 92, 0, 0.07);
+}
+
+.inputIcon {
+  font-size: 18px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.titleInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-on-surface);
+  font-weight: 500;
+}
+.titleInput::placeholder { color: rgba(228, 190, 177, 0.3); font-weight: 400; }
+
+/* Prompt preview chip (shown only from dashboard compile flow) */
+.promptPreview {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255, 92, 0, 0.05);
+  border: 1px solid rgba(255, 92, 0, 0.12);
+  border-radius: 10px;
+}
+.promptPreviewIcon {
+  font-size: 15px;
+  color: var(--color-primary);
+  opacity: 0.7;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.promptPreviewText {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.75;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* ─── Divider ────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.05);
+  margin: 0 -28px;
+}
+
+/* ─── Action Row ─────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.cancelBtn {
+  height: 42px;
+  padding: 0 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--color-on-surface-variant);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cancelBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: var(--color-on-surface);
+}
+
+.confirmBtn {
+  height: 42px;
+  padding: 0 24px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #ff5c00 0%, #ff8c4b 100%);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 6px 20px rgba(255, 92, 0, 0.25);
+  transition: filter 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+.confirmBtn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 8px 24px rgba(255, 92, 0, 0.38);
+}
+.confirmBtn:active  { transform: scale(0.97); }
+.confirmBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  filter: none;
+  box-shadow: none;
+}

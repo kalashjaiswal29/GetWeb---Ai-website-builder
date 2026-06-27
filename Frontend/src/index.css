@@ -1,0 +1,132 @@
+/* Fonts are loaded via <link> tags in index.html for reliable delivery */
+
+/* ─── Design Tokens ───────────────────────────────────────────────── */
+:root {
+  --color-background:              #09090b;
+  --color-surface:                 #121315;
+  --color-surface-dark:            #0b0c0e;
+  --color-surface-container:       #1f2022;
+  --color-surface-container-low:   #1b1c1e;
+  --color-surface-container-high:  #292a2c;
+  --color-surface-bright:          #38393b;
+  --color-primary:                 #ff5c00;
+  --color-primary-hover:           #ff8c4b;
+  --color-on-surface:              #e3e2e5;
+  --color-on-surface-variant:      #e4beb1;
+  --color-secondary:               #c6c6cb;
+
+  --font-display:  'Geist', sans-serif;
+  --font-body:     'Inter', sans-serif;
+  --font-code:     'JetBrains Mono', monospace;
+
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 40px;
+  --space-xl: 64px;
+
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  20px;
+  --radius-xl:  24px;
+}
+
+/* ─── Global Reset ────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── Material Symbols ─────────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+/* ─── Glass Utilities ──────────────────────────────────────────────── */
+.glass-panel,
+.glass-card {
+  background: rgba(30, 32, 36, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 92, 0, 0.3);
+  background: rgba(30, 32, 36, 0.6);
+}
+
+/* ─── Gradient Utility ─────────────────────────────────────────────── */
+.primary-gradient {
+  background: linear-gradient(135deg, #ff5c00 0%, #ff8c4b 100%);
+}
+
+/* ─── Code Line Highlight ──────────────────────────────────────────── */
+.code-line-active {
+  background: rgba(255, 92, 0, 0.05);
+  border-left: 2px solid #ff5c00;
+}
+
+/* ─── Keyframe Animations ──────────────────────────────────────────── */
+@keyframes skeleton-move {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.4; }
+}
+
+/* ─── Animation Classes ────────────────────────────────────────────── */
+.animate-skeleton {
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.05) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: skeleton-move 2s infinite;
+}
+
+.animate-spin-slow  { animation: spin-slow 3s linear infinite; }
+.animate-pulse      { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-fade-in    { animation: fade-in 0.6s ease forwards; }
+
+/* ─── Custom Scrollbars ────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: rgba(255,255,255,0.02); }
+::-webkit-scrollbar-thumb  { background: rgba(255,255,255,0.1); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 92, 0, 0.3); }
+
+/* ─── Input Reset ──────────────────────────────────────────────────── */
+input, textarea, button {
+  font-family: inherit;
+}
+input:focus, textarea:focus { outline: none; }
+button { cursor: pointer; border: none; background: none; }

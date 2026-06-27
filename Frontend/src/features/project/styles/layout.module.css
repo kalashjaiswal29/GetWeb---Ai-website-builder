@@ -1,0 +1,326 @@
+/* ═══════════════════════════════════════════════════════════════════
+   layout.module.css  —  AppLayout: Brand Header + Sidebar Drawer
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Root Shell ───────────────────────────────────────────────────── */
+.root {
+  position: relative;
+  min-height: 100vh;
+  background: var(--color-background);
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Fixed Top-Left Brand Anchor ─────────────────────────────────── */
+.brandAnchor {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brandLogo {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: -0.05em;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 8px rgba(255, 92, 0, 0.35));
+  transition: filter 0.2s ease;
+  user-select: none;
+}
+.brandLogo:hover { filter: drop-shadow(0 2px 14px rgba(255, 92, 0, 0.6)) brightness(1.1); }
+
+.hamburgerBtn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-on-surface);
+  transition: border-color 0.2s ease, transform 0.1s ease;
+  cursor: pointer;
+}
+.hamburgerBtn:hover  { border-color: rgba(255, 92, 0, 0.45); }
+.hamburgerBtn:active { transform: scale(0.93); }
+
+/* ─── Backdrop Blur Overlay ────────────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 60;
+  transition: opacity 0.3s ease;
+}
+.backdropVisible  { opacity: 1; pointer-events: auto; }
+.backdropHidden   { opacity: 0; pointer-events: none; }
+
+/* ─── Slide-Out Drawer Sidebar ─────────────────────────────────────── */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 280px;
+  background: var(--color-surface-dark);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  flex-direction: column;
+  padding-top: 130px;
+  padding-bottom: var(--space-md);
+  z-index: 70;
+  box-shadow: 4px 0 32px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebarOpen   { transform: translateX(0); }
+.sidebarClosed { transform: translateX(-100%); }
+
+/* ─── New Project Button ───────────────────────────────────────────── */
+.sidebarNewBtn {
+  margin: 0 var(--space-md) var(--space-md);
+  width: calc(100% - 48px);
+  height: 44px;
+  background: linear-gradient(135deg, #ff5c00 0%, #ff8c4b 100%);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 92, 0, 0.22);
+  transition: filter 0.2s ease, transform 0.1s ease;
+}
+.sidebarNewBtn:hover  { filter: brightness(1.1); }
+.sidebarNewBtn:active { transform: scale(0.97); }
+
+/* ─── Search ───────────────────────────────────────────────────────── */
+.sidebarSearchWrap {
+  margin: 0 var(--space-md) var(--space-lg);
+}
+.sidebarSearchRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: border-color 0.2s ease;
+}
+.sidebarSearchRow:focus-within { border-color: rgba(255, 92, 0, 0.4); }
+
+.sidebarSearchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+}
+.sidebarSearchInput::placeholder { color: rgba(228, 190, 177, 0.4); }
+
+/* ─── Section Label ────────────────────────────────────────────────── */
+.sidebarLabel {
+  padding: 0 var(--space-md);
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(228, 190, 177, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+/* ─── Project List ─────────────────────────────────────────────────── */
+.sidebarProjectList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebarProjectItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.sidebarProjectItem:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.05);
+}
+.sidebarProjectItem:hover .sidebarProjectName { color: var(--color-primary); }
+
+.sidebarProjectItemActive {
+  background: rgba(255, 92, 0, 0.08) !important;
+  border-color: rgba(255, 92, 0, 0.25) !important;
+}
+.sidebarProjectItemActive .sidebarProjectName {
+  color: var(--color-primary) !important;
+  font-weight: 600;
+}
+
+.sidebarProjectName {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--color-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+  transition: color 0.15s ease;
+}
+
+.statusDotGenerating {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #facc15;
+  box-shadow: 0 0 6px #facc15;
+  flex-shrink: 0;
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+.statusDotCompleted {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+  flex-shrink: 0;
+}
+
+/* ─── Sidebar Project Item Right (dot + delete) ──────────────────── */
+.sidebarProjectItemRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sidebarDeleteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: rgba(228, 190, 177, 0.4);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+.sidebarDeleteBtn:hover {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+}
+.sidebarDeleteBtn:active { transform: scale(0.9); }
+
+
+/* ─── Footer Profile ───────────────────────────────────────────────── */
+.sidebarFooter {
+  margin-top: auto;
+  padding: var(--space-md) var(--space-md) 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+.profileCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.profileInfo { display: flex; align-items: center; gap: 12px; }
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-surface-container);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  font-size: 15px;
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+.avatarImg { width: 100%; height: 100%; object-fit: cover; }
+
+.profileName {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+.profilePlan {
+  font-family: var(--font-display);
+  font-size: 9px;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.logoutBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(228, 190, 177, 0.6);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.logoutBtn:hover { background: rgba(239, 68, 68, 0.1); color: #f87171; }
+
+/* ─── Main Content Slot ────────────────────────────────────────────── */
+.contentSlot {
+  flex: 1;
+  width: 100%;
+  display: flex;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .brandAnchor {
+    top: 14px;
+    left: 14px;
+    gap: 8px;
+  }
+  .brandLogo { font-size: 18px; }
+  .hamburgerBtn { width: 36px; height: 36px; }
+  .sidebar { width: 260px; }
+}
+

@@ -1,0 +1,546 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+/* variables scoped to the auth pages */
+.authRoot {
+  --brand: #FF6B00;
+  --brand-glow: rgba(255, 107, 0, 0.35);
+  --bg-deep: #080808;
+  --bg-panel: #0c0c0c;
+  --bg-input: rgba(255, 255, 255, 0.04);
+  --bg-input-hover: rgba(255, 255, 255, 0.07);
+  --border-dim: rgba(255, 255, 255, 0.08);
+  --border-focus: rgba(255, 107, 0, 0.6);
+  --text-primary: #f0ede8;
+  --text-secondary: rgba(240, 237, 232, 0.5);
+  --text-muted: rgba(240, 237, 232, 0.3);
+  --ease: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: 'Inter', 'Outfit', system-ui, sans-serif;
+}
+
+.authWrapper {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  background-color: var(--bg-deep);
+  position: relative;
+}
+
+/* left side — the form */
+
+.leftPanel {
+  position: relative;
+  z-index: 10;
+  width: 50%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-panel);
+  padding: 48px 56px;
+  /* feather the right edge so it dissolves into the video */
+  -webkit-mask-image: linear-gradient(to right, black 70%, transparent 100%);
+  mask-image: linear-gradient(to right, black 70%, transparent 100%);
+}
+
+/* extends the fade bridge a little past the panel edge */
+.leftPanel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -80px;
+  width: 120px;
+  height: 100%;
+  background: linear-gradient(to right, var(--bg-panel), transparent);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* logo block */
+
+.logoWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.monogram {
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #1a1a1a, #111);
+  border: 1.5px solid var(--border-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 0 1px rgba(255, 107, 0, 0.12),
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: box-shadow var(--ease), transform var(--ease);
+}
+
+.monogram:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(255, 107, 0, 0.4),
+    0 0 24px rgba(255, 107, 0, 0.2),
+    0 8px 32px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.monogramText {
+  font-family: 'Outfit', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #FF6B00, #ffad67 50%, #FF6B00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  user-select: none;
+}
+
+.brandLabel {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* headings */
+
+.formHeading {
+  font-family: 'Outfit', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.formSubheading {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 36px;
+  line-height: 1.5;
+}
+
+/* form layout */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color var(--ease);
+}
+
+/* shift label color when the field is active */
+.fieldGroup:focus-within .label {
+  color: rgba(255, 107, 0, 0.8);
+}
+
+/* input row wrapper — holds icon + input + optional toggle */
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  transition: color var(--ease);
+}
+
+/* shift icon color when wrapper has focus */
+.inputWrapper:focus-within .inputIcon {
+  color: var(--brand);
+}
+
+/* base text input */
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px 14px 46px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border-dim);
+  border-radius: 12px;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color var(--ease), background var(--ease), box-shadow var(--ease);
+}
+
+.input::placeholder {
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+.input:hover {
+  background: var(--bg-input-hover);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.input:focus {
+  background: rgba(255, 107, 0, 0.05);
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.12), 0 2px 12px rgba(255, 107, 0, 0.08);
+}
+
+/* browser autofill override — stops the yellow background */
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px #111 inset;
+  -webkit-text-fill-color: var(--text-primary);
+  border-color: var(--border-focus);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* password show/hide toggle */
+
+.passwordToggle {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color var(--ease), background var(--ease);
+}
+
+.passwordToggle:hover {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* forgot password row */
+
+.formMeta {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+}
+
+.forgotLink {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand);
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity var(--ease);
+}
+
+.forgotLink:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* main CTA button */
+
+.ctaButton {
+  width: 100%;
+  padding: 16px 24px;
+  margin-top: 8px;
+  background: linear-gradient(135deg, #FF6B00, #e55f00);
+  border: none;
+  border-radius: 14px;
+  color: #fff;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(255, 107, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform var(--ease), box-shadow var(--ease), background var(--ease);
+}
+
+/* shimmer sweep on hover */
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+  transition: left 0.5s ease;
+}
+
+.ctaButton:hover::before {
+  left: 160%;
+}
+
+.ctaButton:hover {
+  background: linear-gradient(135deg, #ff7d1a, #FF6B00);
+  box-shadow: 0 6px 32px rgba(255, 107, 0, 0.45), 0 2px 8px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.ctaButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 12px rgba(255, 107, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.ctaButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* spinner shown inside button while loading */
+
+.buttonSpinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  vertical-align: middle;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* divider line between form and footer link */
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border-dim);
+}
+
+.dividerText {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+/* "already have an account?" footer */
+
+.footerNav {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.footerNavText {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.navLink {
+  font-weight: 600;
+  color: var(--brand);
+  text-decoration: none;
+  opacity: 0.9;
+  transition: opacity var(--ease);
+}
+
+.navLink:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* error alert banner */
+
+.errorMsg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #ff5c5c;
+  background: rgba(255, 92, 92, 0.08);
+  border: 1px solid rgba(255, 92, 92, 0.2);
+  border-radius: 8px;
+  animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* password strength bar (register page only) */
+
+.strengthBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -2px;
+  animation: slideIn 0.2s ease;
+}
+
+.strengthTrack {
+  display: flex;
+  flex: 1;
+  gap: 4px;
+}
+
+.strengthSegment {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  transition: background 0.3s ease;
+}
+
+.strengthLabel {
+  min-width: 42px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  text-align: right;
+  transition: color 0.3s ease;
+}
+
+/* right side — the looping video */
+
+.rightPanel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100vh;
+  display: none;
+  overflow: hidden;
+  background: #000;
+  z-index: 1;
+}
+
+.bgVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* gradient that sits over the left edge of the video so it
+   fades into the dark panel color — creates the seamless blend */
+.videoBlend {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--bg-panel) 0%,
+    rgba(12, 12, 12, 0.45) 12%,
+    transparent 38%
+  );
+}
+
+/* soft fade at top and bottom of the video */
+.videoBlend::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(8, 8, 8, 0.4) 0%,
+    transparent 20%,
+    transparent 80%,
+    rgba(8, 8, 8, 0.4) 100%
+  );
+}
+
+/* responsive */
+
+@media (min-width: 768px) {
+  .rightPanel {
+    display: block;
+  }
+
+  /* leftPanel stays at 50% wide so content never slides under the video */
+  .leftPanel {
+    width: 50%;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .leftPanel {
+    width: 100%;
+    padding: 40px 24px;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .leftPanel::after {
+    display: none;
+  }
+
+  .formHeading {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .leftPanel {
+    padding: 40px 32px;
+  }
+
+  .formHeading {
+    font-size: 24px;
+  }
+}

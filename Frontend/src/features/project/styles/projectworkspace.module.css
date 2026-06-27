@@ -1,0 +1,749 @@
+/* ═══════════════════════════════════════════════════════════════════
+   projectworkspace.module.css  —  50/50 Split IDE + Sandbox Preview
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Workspace Root ───────────────────────────────────────────────── */
+.workspaceRoot {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  background: var(--color-background);
+  overflow: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LEFT PANEL — Syntax IDE
+   ═══════════════════════════════════════════════════════════════════ */
+.idePanel {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--color-surface-dark);
+}
+
+/* ─── Top Bar (Save only) ──────────────────────────────────────────── */
+.ideTopBar {
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 0 16px 0 16px;
+  flex-shrink: 0;
+}
+
+.ideTopBarLeft {
+  display: flex;
+  align-items: center;
+}
+
+.idePanelLabel {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(228, 190, 177, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+/* Each file tab (HTML / CSS / JS) */
+.fileTab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 16px;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  border-top: 2px solid transparent;
+  color: rgba(228, 190, 177, 0.45);
+  font-family: var(--font-code);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+  position: relative;
+  height: 100%;
+}
+.fileTab:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(228, 190, 177, 0.8);
+}
+
+/* Active state — highlight with the tab's own colour */
+.fileTabActive {
+  background: var(--color-surface-dark) !important;
+  color: #fff !important;
+  border-top-color: var(--tab-color, var(--color-primary)) !important;
+}
+/* Remove the old ::before pseudo-element — border-top handles the indicator */
+.fileTabActive::before {
+  display: none;
+}
+
+.tabIcon {
+  font-size: 16px;
+}
+.tabLabel {
+  letter-spacing: 0.01em;
+}
+
+.tabBarActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.savedLabel {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: rgba(228, 190, 177, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.saveBtn {
+  background: rgba(255, 92, 0, 0.1);
+  color: var(--color-primary);
+  border: 1px solid rgba(255, 92, 0, 0.25);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.1s ease;
+}
+.saveBtn:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+.saveBtn:active {
+  transform: scale(0.96);
+}
+
+/* ─── Compiling Banner ─────────────────────────────────────────────── */
+.compilingBanner {
+  background: rgba(255, 92, 0, 0.05);
+  border-bottom: 1px solid rgba(255, 92, 0, 0.12);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.compilingLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.compilingIcon {
+  font-size: 16px;
+}
+.progressTrack {
+  width: 128px;
+  height: 4px;
+  background: rgba(255, 92, 0, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progressBar {
+  height: 100%;
+  width: 66%;
+  background: var(--color-primary);
+  background: linear-gradient(
+    90deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-move 2s infinite;
+  border-radius: 999px;
+}
+
+/* ─── Bottom Tab Bar (file switcher) ───────────────────────────────── */
+.ideBottomTabBar {
+  height: 44px;
+  display: flex;
+  align-items: stretch;
+  background: var(--color-surface);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  padding: 0 8px;
+  gap: 2px;
+}
+
+/* Override fileTab inside the bottom bar — indicator on top (visible) */
+.ideBottomTabBar .fileTab {
+  border-top: 2px solid transparent;
+  border-radius: 0;
+  height: 100%;
+  padding: 0 14px;
+}
+.ideBottomTabBar .fileTabActive {
+  border-top-color: var(--tab-color, var(--color-primary)) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+/* ─── Code Editor Area ─────────────────────────────────────────────── */
+/* Single scroll surface — both line numbers and code ride together.    */
+/* --line-h pins every row to the same pixel height so numbers never    */
+/* drift between code lines (font-size × line-height = 13.5 × 1.8).    */
+.codeArea {
+  --code-font-size: 13.5px;
+  --line-h: calc(13.5px * 1.8); /* 24.3 px per row — shared by both columns */
+  flex: 1;
+  overflow: auto;
+  padding: 16px;
+  padding-left: 0px;
+  display: flex;
+  gap: 16px;
+  min-width: 0;
+}
+
+.lineNumbers {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  color: rgba(228, 190, 177, 0.25);
+  font-family: var(--font-code);
+  font-size: var(--code-font-size);
+  line-height: 1.8;
+  user-select: none;
+  padding-right: 16px;
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  flex-shrink: 0;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+}
+
+/* Every line-number <span> gets exactly the same height as a code row */
+.lineNumbers span {
+  display: block;
+  height: var(--line-h);
+  line-height: var(--line-h);
+  background: rgb(0, 0, 0);
+  padding: 0px 8px;
+}
+
+.codeContent {
+  flex: 1;
+  font-family: var(--font-code);
+  font-size: var(--code-font-size);
+  line-height: 1.8;
+  white-space: pre;
+  overflow: visible;
+  color: var(--color-on-surface);
+}
+
+/* Each code row also locked to the same height */
+.codeContent > div {
+  height: var(--line-h);
+  line-height: var(--line-h);
+}
+
+/* Syntax token colours */
+.tokenTag {
+  color: #93c5fd;
+} /* blue-300  — tags / selectors */
+.tokenAttr {
+  color: #fdba74;
+} /* orange-300 — attributes / properties */
+.tokenString {
+  color: #86efac;
+} /* green-300  — strings / values */
+.tokenContent {
+  color: var(--color-on-surface);
+}
+.tokenComment {
+  color: rgba(228, 190, 177, 0.3);
+  font-style: italic;
+}
+.tokenKeyword {
+  color: #c084fc;
+} /* purple-400 — JS keywords */
+.tokenPrimary {
+  color: var(--color-primary);
+}
+
+.codeLineActive {
+  background: rgba(255, 92, 0, 0.06);
+  border-left: 2px solid var(--color-primary);
+  margin-left: -2px;
+  padding-left: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RIGHT PANEL — Sandbox Preview
+   ═══════════════════════════════════════════════════════════════════ */
+.previewPanel {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+}
+
+/* ─── Preview Toolbar ──────────────────────────────────────────────── */
+.viewportPill {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: rgba(18, 19, 21, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+.viewportBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: rgba(228, 190, 177, 0.5);
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.viewportBtn:hover {
+  color: #fff;
+}
+.viewportBtnActive {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-primary);
+}
+
+/* ─── Preview Canvas ───────────────────────────────────────── */
+.previewCanvas {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Loading Skeleton Overlay ─────────────────────────────────────── */
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background: rgba(9, 9, 11, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  gap: 32px;
+}
+.skeletonGroup {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.skeletonBlock {
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 12px;
+  background: linear-gradient(
+    90deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-move 2s infinite;
+}
+.skeletonLarge {
+  height: 200px;
+}
+.skeletonMedium {
+  height: 32px;
+  width: 75%;
+}
+.skeletonSmall {
+  height: 32px;
+  width: 50%;
+}
+
+.loadingLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--color-primary);
+  font-family: var(--font-display);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+/* ─── Iframe Container ───────────────────────────────────────── */
+/* Full-bleed: fills entire previewCanvas */
+.iframeContainer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  animation: fade-in 0.6s ease forwards;
+}
+/* Constrained: tablet / mobile — floats centred with a frame */
+.iframeContainerConstrained {
+  position: relative;
+  align-self: stretch;
+  max-width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+  animation: fade-in 0.6s ease forwards;
+  margin: 24px;
+}
+.sandboxFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+  display: block;
+}
+
+/* ─── Empty Preview State (no fileData yet) ─────────────────────────── */
+.previewEmpty {
+  position: absolute;
+  inset: 0;
+  background: var(--color-surface-dark);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  overflow: hidden;
+  animation: fade-in 0.7s ease forwards;
+}
+.previewEmptyGlow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 92, 0, 0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+.previewEmptyIcon {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: var(--color-primary);
+  box-shadow: 0 8px 32px rgba(255, 92, 0, 0.18);
+  position: relative;
+  z-index: 1;
+}
+.previewEmptyHeadline {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+}
+.previewEmptyBody {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--color-on-surface-variant);
+  max-width: 360px;
+  text-align: center;
+  line-height: 1.6;
+  position: relative;
+  z-index: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DESKTOP FULLSCREEN OVERLAY
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Enter: expands from top-right (where the desktop button lives),
+   combines a clip-path reveal, slight Y translate, and a fast blur. */
+@keyframes fullscreen-enter {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(-24px);
+    clip-path: inset(0 0 100% 0 round 16px);
+    filter: blur(8px);
+  }
+  40% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    clip-path: inset(0 0 0% 0 round 0px);
+    filter: blur(0);
+  }
+}
+
+/* Exit: reverse — collapses back upward, shrinks, blurs out. */
+@keyframes fullscreen-exit {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    clip-path: inset(0 0 0% 0 round 0px);
+    filter: blur(0);
+  }
+  60% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.92) translateY(-24px);
+    clip-path: inset(0 0 100% 0 round 16px);
+    filter: blur(8px);
+  }
+}
+
+.desktopFullscreenOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  transform-origin: top right;
+  animation: fullscreen-enter 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform, clip-path, filter;
+}
+
+/* Exit state — played for 380 ms before unmount */
+.desktopFullscreenExiting {
+  animation: fullscreen-exit 0.38s cubic-bezier(0.55, 0, 0.45, 1) forwards !important;
+}
+
+/* ─── Fullscreen toolbar ────────────────────────────────────────── */
+.desktopFullscreenBar {
+  height: 60px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 0 24px;
+  background: var(--color-surface-dark);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.desktopFullscreenActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.desktopFullscreenLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  opacity: 0.75;
+}
+
+.exitFullscreenBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: rgba(255, 92, 0, 0.1);
+  border: 1px solid rgba(255, 92, 0, 0.28);
+  color: var(--color-primary);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease,
+    box-shadow 0.2s ease;
+}
+.exitFullscreenBtn:hover {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(255, 92, 0, 0.35);
+}
+.exitFullscreenBtn:active {
+  transform: scale(0.96);
+}
+
+/* ─── Fullscreen iframe frame ───────────────────────────────────── */
+.desktopFullscreenFrame {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.desktopFullscreenFrame .sandboxFrame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #fff;
+  display: block;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Tablet & Mobile
+   On screens ≤ 1024px the workspace stacks vertically:
+     top half  = preview panel
+     bottom half = IDE panel
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .workspaceRoot {
+    flex-direction: column-reverse;
+  }
+  .idePanel {
+    width: 100%;
+    height: 50vh;
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    flex-shrink: 0;
+  }
+  .previewPanel {
+    width: 100%;
+    height: 50vh;
+    flex-shrink: 0;
+  }
+}
+
+/* ─── Viewport Hint Popup ──────────────────────────────────────────── */
+.viewportPopup {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  background: rgba(18, 19, 21, 0.96);
+  border: 1px solid rgba(255, 92, 0, 0.25);
+  border-radius: 12px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 300px;
+  width: calc(100% - 32px);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 92, 0, 0.08);
+  animation: popupSlideUp 0.25s ease forwards;
+}
+
+@keyframes popupSlideUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.viewportPopupIcon {
+  font-size: 20px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.viewportPopupBody {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.viewportPopupTitle {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+
+.viewportPopupDesc {
+  font-family: var(--font-body);
+  font-size: 11.5px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.65;
+  line-height: 1.45;
+}
+
+.viewportPopupClose {
+  color: rgba(228, 190, 177, 0.4);
+  flex-shrink: 0;
+  cursor: pointer;
+  padding: 2px;
+  transition: color 0.15s;
+}
+.viewportPopupClose:hover {
+  color: var(--color-on-surface);
+}
+
+@media (max-width: 640px) {
+  .idePanel {
+    height: 45vh;
+  }
+  .previewPanel {
+    height: 55vh;
+  }
+  .ideTopBar {
+    padding: 0 10px;
+  }
+}

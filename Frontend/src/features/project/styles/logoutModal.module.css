@@ -1,0 +1,201 @@
+/* ═══════════════════════════════════════════════════════════════════
+   logoutModal.module.css — Logout Modal overrides (amber theme)
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Narrower card */
+.card {
+  max-width: 440px;
+}
+
+/* ── Amber top-edge glow bar ──────────────────────────────────────── */
+.cardTopGlowAmber {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #f59e0b 40%,
+    #fbbf24 60%,
+    transparent 100%
+  );
+  opacity: 0.9;
+}
+
+/* ── Radial amber bg glow ─────────────────────────────────────────── */
+.cardBgGlowAmber {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 200px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(245, 158, 11, 0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Amber icon wrapper ───────────────────────────────────────────── */
+.iconWrapAmber {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #fbbf24;
+  box-shadow: 0 4px 16px rgba(245, 158, 11, 0.15);
+}
+
+/* ── Radio group container ────────────────────────────────────────── */
+.radioGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* ── Individual radio card ────────────────────────────────────────── */
+.radioCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  user-select: none;
+}
+.radioCard:hover {
+  border-color: rgba(245, 158, 11, 0.25);
+  background: rgba(245, 158, 11, 0.04);
+}
+.radioCardActive {
+  border-color: rgba(245, 158, 11, 0.45);
+  background: rgba(245, 158, 11, 0.07);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.07);
+}
+
+/* Hide the native radio input visually */
+.radioInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* ── Icon inside each radio card ─────────────────────────────────── */
+.radioIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(228, 190, 177, 0.5);
+  flex-shrink: 0;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+.radioCardActive .radioIcon {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+}
+
+/* ── Text block ───────────────────────────────────────────────────── */
+.radioText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+.radioLabel {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  letter-spacing: -0.01em;
+}
+.radioDesc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.55;
+  line-height: 1.4;
+}
+
+/* ── Custom radio indicator dot (right side) ─────────────────────── */
+.radioIndicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.18s ease, background 0.18s ease;
+  position: relative;
+}
+.radioCardActive .radioIndicator {
+  border-color: #f59e0b;
+}
+.radioCardActive .radioIndicator::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+}
+
+/* ── Confirm button — amber (default: this device) ───────────────── */
+.confirmBtn {
+  height: 42px;
+  padding: 0 24px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.28);
+  transition: filter 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease,
+    background 0.25s ease;
+}
+.confirmBtn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.42);
+}
+.confirmBtn:active {
+  transform: scale(0.97);
+}
+
+/* ── Confirm button — red variant (all devices) ──────────────────── */
+.confirmBtnDanger {
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.28);
+}
+.confirmBtnDanger:hover {
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.42);
+}

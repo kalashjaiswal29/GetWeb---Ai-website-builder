@@ -1,0 +1,331 @@
+/* ═══════════════════════════════════════════════════════════════════
+   generatingOverlay.module.css — AI Compile Fullscreen Overlay
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Backdrop ───────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 8500;
+  background: rgba(8, 8, 9, 0.94);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: overlayEnter 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes overlayEnter {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Ambient BG glow ────────────────────────────────────────────── */
+.bgGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 500px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 92, 0, 0.09) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  animation: ambientPulse 4s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* ─── Grid overlay texture ───────────────────────────────────────── */
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,92,0,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,92,0,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+}
+
+/* ─── Card ───────────────────────────────────────────────────────── */
+.card {
+  position: relative;
+  z-index: 1;
+  background: rgba(14, 15, 17, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 24px;
+  padding: 40px 44px;
+  width: 100%;
+  max-width: 520px;
+  box-shadow:
+    0 0 0 1px rgba(255, 92, 0, 0.06),
+    0 32px 80px rgba(0, 0, 0, 0.7),
+    0 8px 24px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  animation: cardEnter 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ─── Top edge glow ──────────────────────────────────────────────── */
+.cardTopGlow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 92, 0, 0.5), transparent);
+  border-radius: 999px;
+}
+
+/* ─── Logo row ───────────────────────────────────────────────────── */
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logoMark {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #181a1d, #111214);
+  border: 1px solid rgba(255, 92, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow:
+    0 0 20px rgba(255, 92, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  animation: logoPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes logoPulse {
+  0%, 100% { box-shadow: 0 0 16px rgba(255, 92, 0, 0.10), inset 0 1px 0 rgba(255,255,255,0.05); }
+  50%       { box-shadow: 0 0 32px rgba(255, 92, 0, 0.22), inset 0 1px 0 rgba(255,255,255,0.07); }
+}
+
+.logoText {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  background: linear-gradient(135deg, #ff5c00, #ffad67 50%, #ff5c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logoMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.logoName {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: #f0ede8;
+  letter-spacing: -0.2px;
+}
+
+.logoTag {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 92, 0, 0.6);
+}
+
+/* ─── Headline ───────────────────────────────────────────────────── */
+.headlineGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.headline {
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #f0ede8;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.subline {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: rgba(228, 190, 177, 0.5);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ─── Animated progress bar ─────────────────────────────────────── */
+.progressTrack {
+  position: relative;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 999px;
+  overflow: visible;
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ff5c00, #ff8c4b, #ff5c00);
+  background-size: 200% 100%;
+  animation: progressShimmer 2s linear infinite;
+  width: 45%;
+  animation: progressSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.progressGlow {
+  position: absolute;
+  top: -3px;
+  height: 9px;
+  width: 40px;
+  border-radius: 999px;
+  background: rgba(255, 92, 0, 0.5);
+  filter: blur(6px);
+  animation: glowSweep 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes progressSweep {
+  0%   { width: 0%;   margin-left: 0%; }
+  50%  { width: 50%;  margin-left: 25%; }
+  100% { width: 0%;   margin-left: 100%; }
+}
+
+@keyframes glowSweep {
+  0%   { left: 0%; }
+  100% { left: 100%; }
+}
+
+/* ─── Steps ──────────────────────────────────────────────────────── */
+.stepList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.stepDone {
+  background: rgba(34, 197, 94, 0.05);
+  border: 1px solid rgba(34, 197, 94, 0.1);
+}
+.stepActive {
+  background: rgba(255, 92, 0, 0.07);
+  border: 1px solid rgba(255, 92, 0, 0.15);
+}
+.stepPending {
+  background: transparent;
+  border: 1px solid transparent;
+  opacity: 0.35;
+}
+
+.stepIconWrap {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stepCheckIcon {
+  font-size: 18px;
+  color: #22c55e;
+}
+
+.stepActiveIcon {
+  font-size: 18px;
+  color: #ff5c00;
+}
+
+.stepPendingIcon {
+  font-size: 18px;
+  color: rgba(228, 190, 177, 0.4);
+}
+
+.stepLabel {
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: rgba(228, 190, 177, 0.8);
+  transition: color 0.3s ease;
+}
+
+.stepActive .stepLabel {
+  color: rgba(255, 140, 75, 0.9);
+}
+
+.stepDone .stepLabel {
+  color: rgba(34, 197, 94, 0.7);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.footerTimer {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 92, 0, 0.5);
+  font-variant-numeric: tabular-nums;
+}
+
+.footerNote {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  color: rgba(228, 190, 177, 0.25);
+  letter-spacing: 0.2px;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 560px) {
+  .card {
+    padding: 28px 24px;
+    gap: 22px;
+    border-radius: 18px;
+  }
+
+  .headline { font-size: 18px; }
+}

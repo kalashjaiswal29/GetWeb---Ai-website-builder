@@ -1,0 +1,89 @@
+/* ═══════════════════════════════════════════════════════════════════
+   deleteModal.module.css  —  Delete Confirmation Modal overrides
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Narrower card for a compact danger dialog */
+.card {
+  max-width: 420px;
+}
+
+/* Red top-edge glow bar */
+.cardTopGlowRed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #ef4444 40%,
+    #f87171 60%,
+    transparent 100%
+  );
+  opacity: 0.9;
+}
+
+/* Radial red bg glow */
+.cardBgGlowRed {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 200px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(239, 68, 68, 0.08) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Red icon wrapper */
+.iconWrapRed {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: #f87171;
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.15);
+}
+
+/* Highlighted project name within the subtitle */
+.projectNameHighlight {
+  color: #f87171;
+  font-weight: 700;
+}
+
+/* Delete (danger) confirm button */
+.deleteBtn {
+  height: 42px;
+  padding: 0 22px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.28);
+  transition: filter 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+}
+.deleteBtn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.42);
+}
+.deleteBtn:active {
+  transform: scale(0.97);
+}

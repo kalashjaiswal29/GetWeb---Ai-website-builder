@@ -1,0 +1,370 @@
+/* ═══════════════════════════════════════════════════════════════════
+   dashboard.module.css  —  Dashboard Page Scoped Styles
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Page Container ───────────────────────────────────────────────── */
+.page {
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+  padding: 108px var(--space-md) var(--space-xl);
+}
+
+.inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  width: 100%;
+}
+
+/* ─── Hero Section ─────────────────────────────────────────────────── */
+.heroSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-md);
+  padding: var(--space-lg) 0;
+  margin-top: 32px;
+}
+
+.heroTextWrap { display: flex; flex-direction: column; gap: var(--space-sm); }
+
+.heroHeadline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-on-surface);
+  max-width: 720px;
+  letter-spacing: -0.03em;
+}
+.heroAccent { color: var(--color-primary); }
+
+.heroSubtitle {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.8;
+}
+
+/* ─── Prompt Terminal ──────────────────────────────────────────────── */
+.promptWrap {
+  width: 100%;
+  max-width: 880px;
+  margin-top: var(--space-sm);
+  position: relative;
+}
+
+.promptTerminal {
+  background: var(--color-surface);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 8px;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
+.promptTerminal:focus-within { border-color: rgba(255, 92, 0, 0.35); }
+
+.promptInputRow {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 12px;
+}
+
+.promptIcon { color: var(--color-primary); font-size: 22px; }
+
+.promptInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--color-on-surface);
+  padding: 12px 0;
+}
+.promptInput::placeholder { color: rgba(228, 190, 177, 0.35); }
+
+.compileBtn {
+  background: linear-gradient(135deg, #ff5c00 0%, #ff8c4b 100%);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 18px;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 92, 0, 0.28);
+  transition: filter 0.2s ease, transform 0.1s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.compileBtn:hover  { filter: brightness(1.08); }
+.compileBtn:active { transform: scale(0.97); }
+.compileBtn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+/* ─── Tag Pills ────────────────────────────────────────────────────── */
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.tagPill {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--color-on-surface);
+  font-family: var(--font-body);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.tagPill:hover {
+  border-color: rgba(255, 92, 0, 0.35);
+  background: rgba(255, 255, 255, 0.08);
+}
+.tagPill .tagIcon { font-size: 14px; }
+
+/* ─── Recent Generations Section ───────────────────────────────────── */
+.recentSection { display: flex; flex-direction: column; gap: var(--space-md); margin-top: 16px; }
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 16px;
+}
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+
+/* ─── Project Grid ─────────────────────────────────────────────────── */
+.projectGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
+}
+@media (min-width: 640px)  { .projectGrid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .projectGrid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1280px) { .projectGrid { grid-template-columns: repeat(4, 1fr); } }
+
+/* ─── Project Card ─────────────────────────────────────────────────── */
+.projectCard {
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(30, 32, 36, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.projectCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 92, 0, 0.3);
+  background: rgba(30, 32, 36, 0.65);
+}
+
+.cardThumb {
+  height: 176px;
+  background: var(--color-surface-dark);
+  position: relative;
+  overflow: hidden;
+}
+.cardThumbGradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(9,9,11,0.85) 0%, transparent 60%);
+  z-index: 1;
+}
+.cardThumbImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+  transition: transform 1s ease, opacity 0.3s ease;
+}
+.projectCard:hover .cardThumbImg { transform: scale(1.08); opacity: 0.65; }
+
+.cardThumbPlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-dark) 100%);
+}
+.cardThumbPlaceholderIcon { font-size: 40px; color: rgba(255, 92, 0, 0.3); }
+
+/* ─── Status Badge ─────────────────────────────────────────────────── */
+.statusBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.statusGenerating {
+  background: rgba(250, 204, 21, 0.1);
+  border: 1px solid rgba(250, 204, 21, 0.2);
+  color: #facc15;
+}
+.statusCompleted {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+}
+
+/* ─── Card Body ────────────────────────────────────────────────────── */
+.cardBody {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(9, 9, 11, 0.5);
+  position: relative;
+  z-index: 2;
+}
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  transition: color 0.2s ease;
+}
+.projectCard:hover .cardTitle { color: var(--color-primary); }
+
+.cardDesc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  opacity: 0.65;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ─── Card Footer (delete row) ─────────────────────────────────────── */
+.cardFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.cardDeleteBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  background: rgba(239, 68, 68, 0.05);
+  color: rgba(228, 190, 177, 0.55);
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.cardDeleteBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #f87171;
+}
+.cardDeleteBtn:active { transform: scale(0.95); }
+
+/* ─── Skeleton Cards ───────────────────────────────────────────────── */
+.skeletonCard {
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+.skeletonThumb {
+  height: 176px;
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.04) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: skeleton-move 2s infinite;
+}
+.skeletonLine {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, transparent 25%, rgba(255,255,255,0.04) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: skeleton-move 2s infinite;
+}
+.skeletonBody { padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+/* ─── Error / Empty State ──────────────────────────────────────────── */
+.emptyState {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 64px 24px;
+  color: rgba(228, 190, 177, 0.4);
+  text-align: center;
+}
+.emptyStateIcon { font-size: 48px; }
+.emptyStateText { font-family: var(--font-body); font-size: 14px; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .page { padding: 80px var(--space-sm) var(--space-lg); }
+  .projectGrid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .page { padding: 72px 16px var(--space-lg); }
+  .heroSection { padding: var(--space-md) 0; margin-top: 8px; }
+  .heroHeadline { font-size: 26px; }
+  .promptTerminal { flex-direction: column; align-items: stretch; gap: 8px; padding: 12px; border-radius: var(--radius-lg); }
+  .promptInputRow { padding: 0 8px; }
+  .compileBtn { width: 100%; justify-content: center; height: 48px; border-radius: var(--radius-md); }
+  .tagRow { gap: 6px; }
+  .projectGrid { grid-template-columns: 1fr; }
+}
+
