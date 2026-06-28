@@ -265,7 +265,8 @@ Maximalism/Memphis/Y2K: playful spring bounces
 
 Always include:
   1. Hero staggered fadeUp on load (text content, not the photo)
-  2. IntersectionObserver .reveal scroll animations
+  2. IntersectionObserver .reveal scroll animations — ONE-WAY only, see JS section below
+     for the exact required pattern (never remove the visible class once added)
   3. Button/card hover feedback matching the style
   4. Optional: subtle Ken-Burns zoom on hero photo (very slow, 12-20s, scale 1→1.08)
   @media (prefers-reduced-motion: reduce) { * { animation:none!important; transition:none!important; } }
@@ -294,6 +295,29 @@ JAVASCRIPT (one DOMContentLoaded block)
 4. Smooth scroll anchors
 5. Stat counters (data-target, count up on viewport entry)
 6. Domain-specific interaction if implied by prompt
+
+CRITICAL BUG TO NEVER REPRODUCE — ONE-WAY REVEAL ONLY:
+Once a .reveal element gets its visible/is-visible class, NEVER remove it later,
+even inside an else branch when entry.isIntersecting is false. A toggle that adds
+AND removes the class makes every section the user has scrolled past disappear
+again the moment it leaves the viewport — this is the single most common cause of
+"missing content" / "sections vanished" bugs. Use exactly this pattern, no else branch:
+
+  const revealElements = document.querySelectorAll('.reveal');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
+  revealElements.forEach(el => revealObserver.observe(el));
+
+Note unobserve() is called right after adding the class — this guarantees the class
+can only ever be added, never stripped, and the element stays visible permanently
+once revealed. Apply this same one-way pattern to the hero-content reveal observer
+too if a separate observer is used for the hero.
 
 ═══════════════════════════════════════════════════════
 ABSOLUTE PROHIBITIONS
