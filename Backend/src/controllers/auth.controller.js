@@ -255,6 +255,7 @@ async function refreshTokenController(req, res) {
     session.refreshToken = newRefreshTokenHashed;
     await session.save();
 
+    
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       secure: secureCookie,
