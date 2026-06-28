@@ -9,7 +9,7 @@ const app = require("./src/app");
 const connectDB = require("./src/config/database.js");
 const { create } = require("./src/models/user.model.js");
 const {initSocket} = require('./src/services/socket.js')
-const PORT = 3001;
+const PORT = process.env.PORT ;
 
 const server = createServer(app);
 
