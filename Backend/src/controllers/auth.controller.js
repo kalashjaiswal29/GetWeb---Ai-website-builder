@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 
 const userModel = require("../models/user.model");
 const sessionModel = require("../models/session.model");
+const { Timestamp } = require("mongodb");
 
 const secureCookie = process.env.COOKIE_SECURE === "true" || process.env.NODE_ENV === "production";
 
@@ -432,6 +433,14 @@ async function logOutFromAllController(req, res) {
   }
 }
 
+const healthCheckController = (req, res) => {
+  res.status(200).json({
+    status: UP,
+    message: "Server is alive",
+    timestamp: new Date().toISOString()  
+  })
+}
+
 module.exports = {
   registerUserController,
   loginUserController,
@@ -439,4 +448,5 @@ module.exports = {
   getMeController,
   logOutController,
   logOutFromAllController,
+  healthCheckController
 };

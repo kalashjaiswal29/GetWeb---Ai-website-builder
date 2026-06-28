@@ -47,4 +47,11 @@ authRouter.post("/logout", authController.logOutController);
  */
 authRouter.post("/logout-all", authController.logOutFromAllController);
 
+/**
+ * @path /api/auth/health
+ * @description checks the state of backend is it active or not 
+ * @access public
+ */
+authRouter.get("/health", authController.healthCheckController) ;
+
 module.exports = authRouter;
