@@ -160,6 +160,8 @@ const getAllProjectsByUserIdController = async (req, res) => {
     const records = await projectModel
       .find({
         userId,
+        status: "completed"
+
       })
       .select("title")
       .sort({ createdAt: -1 });
