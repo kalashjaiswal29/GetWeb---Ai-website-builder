@@ -84,7 +84,7 @@ const registerUserController = [
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: secureCookie,
-        sameSite: "strict",
+        sameSite: "none",
         maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       });
 
@@ -165,7 +165,7 @@ async function loginUserController(req, res) {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: secureCookie,
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -259,7 +259,7 @@ async function refreshTokenController(req, res) {
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       secure: secureCookie,
-      sameSite: "strict",
+      sameSite: "none",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -369,7 +369,7 @@ async function logOutController(req, res) {
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: secureCookie,
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     res.status(200).json({
@@ -418,7 +418,7 @@ async function logOutFromAllController(req, res) {
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: secureCookie,
-      sameSite: "strict",
+      sameSite: "none",
     });
 
     res.status(201).json({
