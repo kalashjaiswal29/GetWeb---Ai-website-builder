@@ -641,24 +641,28 @@
 /* ═══════════════════════════════════════════════════════════════════
    RESPONSIVE — Tablet & Mobile
    On screens ≤ 1024px the workspace stacks vertically:
-     top half  = preview panel
-     bottom half = IDE panel
+     top half  = preview panel (approx 90% screen height)
+     bottom half = IDE panel (approx 90% screen height)
+     pushed down to clear the fixed brand logo
    ═══════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 1024px) {
   .workspaceRoot {
     flex-direction: column-reverse;
+    height: auto;
+    overflow: visible;
+    padding-top: 110px; /* Clear logo (102px) + 8px spacing */
   }
   .idePanel {
     width: 100%;
-    height: 50vh;
+    height: 90vh;
     border-right: none;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     flex-shrink: 0;
   }
   .previewPanel {
     width: 100%;
-    height: 50vh;
+    height: 90vh;
     flex-shrink: 0;
   }
 }
@@ -737,11 +741,14 @@
 }
 
 @media (max-width: 640px) {
+  .workspaceRoot {
+    padding-top: 88px; /* Clear mobile logo (80px) + 8px spacing */
+  }
   .idePanel {
-    height: 45vh;
+    height: 90vh;
   }
   .previewPanel {
-    height: 55vh;
+    height: 90vh;
   }
   .ideTopBar {
     padding: 0 10px;
