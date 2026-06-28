@@ -753,4 +753,15 @@
   .ideTopBar {
     padding: 0 10px;
   }
+  .desktopFullscreenBar {
+    padding: 0 12px;
+    height: 52px;
+  }
+  .desktopFullscreenLabel {
+    display: none; /* Hide label on mobile screens to prevent overflow */
+  }
+  .exitFullscreenBtn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
 }

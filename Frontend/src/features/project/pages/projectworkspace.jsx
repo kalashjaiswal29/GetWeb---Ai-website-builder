@@ -537,7 +537,7 @@ const IDEPanel = ({ title, fileData, loading }) => {
 // ─── Sandbox Preview Panel ────────────────────────────────────────────────────
 const PreviewPanel = ({ fileData, loading }) => {
   const [activeViewport, setActiveViewport] = useState("tablet");
-  const [isDesktopFullscreen, setIsDesktopFullscreen] = useState(false);
+  const [fullscreenViewport, setFullscreenViewport] = useState(null);
   const [isExiting, setIsExiting] = useState(false);
   const [viewportPopup, setViewportPopup] = useState(null);
 
@@ -571,21 +571,35 @@ const PreviewPanel = ({ fileData, loading }) => {
         setViewportPopup("tablet");
         return;
       }
+      if (key === "mobile") {
+        setActiveViewport(key);
+        setIsExiting(false);
+        setFullscreenViewport("mobile");
+        return;
+      }
     }
 
-    if (screen === "tablet" && key === "desktop") {
-      setViewportPopup("desktop");
-      return;
+    if (screen === "tablet") {
+      if (key === "desktop") {
+        setViewportPopup("desktop");
+        return;
+      }
+      if (key === "tablet") {
+        setActiveViewport(key);
+        setIsExiting(false);
+        setFullscreenViewport("tablet");
+        return;
+      }
     }
 
     if (key === "desktop") {
       setActiveViewport(key);
       setIsExiting(false);
-      setIsDesktopFullscreen(true);
-    } else if (isDesktopFullscreen) {
+      setFullscreenViewport("desktop");
+    } else if (fullscreenViewport) {
       setIsExiting(true);
       setTimeout(() => {
-        setIsDesktopFullscreen(false);
+        setFullscreenViewport(null);
         setIsExiting(false);
         setActiveViewport(key);
       }, 380);
@@ -594,12 +608,19 @@ const PreviewPanel = ({ fileData, loading }) => {
     }
   };
 
-  const exitDesktopFullscreen = () => {
+  const exitFullscreen = () => {
     setIsExiting(true);
     setTimeout(() => {
-      setIsDesktopFullscreen(false);
+      setFullscreenViewport(null);
       setIsExiting(false);
-      setActiveViewport("tablet");
+      const screen = getScreenType();
+      if (screen === "mobile") {
+        setActiveViewport("mobile");
+      } else if (screen === "tablet") {
+        setActiveViewport("tablet");
+      } else {
+        setActiveViewport("tablet");
+      }
     }, 380);
   };
 
@@ -681,7 +702,7 @@ const PreviewPanel = ({ fileData, loading }) => {
           </div>
         )}
 
-        {hasContent && !isDesktopFullscreen && (
+        {hasContent && !fullscreenViewport && (
           <div
             className={activeViewport === "desktop" ? styles.iframeContainer : styles.iframeContainerConstrained}
             style={
@@ -740,8 +761,8 @@ const PreviewPanel = ({ fileData, loading }) => {
         )}
       </div>
 
-      {/* Desktop Fullscreen Overlay */}
-      {isDesktopFullscreen && hasContent && (
+      {/* Fullscreen Overlay */}
+      {fullscreenViewport && hasContent && (
         <div
           className={`${styles.desktopFullscreenOverlay} ${isExiting ? styles.desktopFullscreenExiting : ""}`}
         >
@@ -749,19 +770,31 @@ const PreviewPanel = ({ fileData, loading }) => {
             <div className={styles.desktopFullscreenActions}>
               <span className={styles.desktopFullscreenLabel}>
                 <span className="material-symbols-outlined" style={{ fontSize: "14px" }}>
-                  desktop_windows
+                  {fullscreenViewport === "desktop"
+                    ? "desktop_windows"
+                    : fullscreenViewport === "tablet"
+                    ? "tablet_mac"
+                    : "smartphone"}
                 </span>
-                Desktop View
+                {fullscreenViewport === "desktop"
+                  ? "Desktop View"
+                  : fullscreenViewport === "tablet"
+                  ? "Tablet View"
+                  : "Mobile View"}
               </span>
               <button
                 className={styles.exitFullscreenBtn}
-                onClick={exitDesktopFullscreen}
-                title="Exit desktop fullscreen"
+                onClick={exitFullscreen}
+                title={`Exit ${fullscreenViewport} fullscreen`}
               >
                 <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>
                   close_fullscreen
                 </span>
-                Exit Fullscreen
+                Exit {fullscreenViewport === "desktop"
+                  ? "Fullscreen"
+                  : fullscreenViewport === "tablet"
+                  ? "Tablet View"
+                  : "Mobile View"}
               </button>
             </div>
           </div>
@@ -769,7 +802,7 @@ const PreviewPanel = ({ fileData, loading }) => {
             <iframe
               className={styles.sandboxFrame}
               srcDoc={srcdoc}
-              title="Sandbox Preview — Desktop"
+              title={`Sandbox Preview — ${fullscreenViewport}`}
               sandbox="allow-scripts allow-same-origin"
             />
           </div>
