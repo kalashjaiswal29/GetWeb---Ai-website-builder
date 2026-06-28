@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router";
 import { useToast } from "../../shared/components/Toast";
+const BACKEND_SOCKET_URL = import.meta.env.VITE_BACKEND_SOCKET_URL;
 
 const useProjectSocket = (currentUserId) => {
   console.log("current user id", currentUserId);
@@ -15,7 +16,7 @@ const useProjectSocket = (currentUserId) => {
   useEffect(() => {
     if (!currentUserId) return;
 
-    const socket = io("http://localhost:3001", {
+    const socket = io(BACKEND_SOCKET_URL, {
       autoConnect: false,
     });
     socketRef.current = socket;
@@ -34,7 +35,7 @@ const useProjectSocket = (currentUserId) => {
       if (data.status === "completed") {
         toast.success(
           "Your webpage is ready. Opening workspace…",
-          "Project compiled!"
+          "Project compiled!",
         );
         navigate(`/project?id=${data.projectId}`);
       }
@@ -54,7 +55,7 @@ const useProjectSocket = (currentUserId) => {
         } else {
           toast.error(
             msg || "The AI compilation encountered an error. Please try again.",
-            "Compilation failed"
+            "Compilation failed",
           );
         }
         navigate("/dashboard");
