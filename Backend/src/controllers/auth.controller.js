@@ -255,7 +255,7 @@ async function refreshTokenController(req, res) {
     session.refreshToken = newRefreshTokenHashed;
     await session.save();
 
-    
+
     res.cookie("refreshToken", newRefreshToken, {
       httpOnly: true,
       secure: secureCookie,
@@ -436,7 +436,7 @@ async function logOutFromAllController(req, res) {
 
 const healthCheckController = (req, res) => {
   res.status(200).json({
-    status: UP,
+    status: "UP",
     message: "Server is alive",
     timestamp: new Date().toISOString()  
   })
