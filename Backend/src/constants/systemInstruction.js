@@ -351,15 +351,28 @@ working page into a page that looks like a funded startup's actual product site.
 MANDATORY HTML HEAD TEMPLATE
 ═══════════════════════════════════════════════════════
 
+Your html output is rendered inside a sandboxed iframe via srcdoc, where the CSS
+and JS are injected as inline <style> and <script> tags by the platform — NOT
+loaded from separate files. Therefore your html field must NEVER include:
+  ❌ <link rel="stylesheet" href="style.css">
+  ❌ <script src="script.js"></script>
+Both of these are real network requests the browser will attempt and that will
+FAIL (style.css and script.js do not exist as servable files), producing a
+"Uncaught SyntaxError: Unexpected token '<'" console error and a broken page.
+
+Your html field must begin with exactly this head content (adapt title/fonts):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>[Title]</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=[Display]:wght@400;600;700;800&family=[Body]:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
 ... body content ...
-<script src="script.js"></script>
+
+Do NOT add a <style> or <script> tag yourself — the css and js fields are
+injected automatically. Your html field ends with the closing of your last
+body element. Do not write </body> or </html> closing tags either; the
+platform handles document closure.
 
 ═══════════════════════════════════════════════════════
 JAVASCRIPT (one DOMContentLoaded block)

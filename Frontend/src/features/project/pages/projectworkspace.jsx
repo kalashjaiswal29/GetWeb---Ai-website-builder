@@ -634,6 +634,15 @@ const PreviewPanel = ({ fileData, loading }) => {
     if (!html) return null;
 
     let doc = html;
+
+    // Safety net: strip any stray <link rel="stylesheet" href="style.css">
+    // or <script src="script.js"></script> tags the AI may have written.
+    // These reference files that don't exist as real servable URLs inside
+    // a srcdoc iframe — the browser fetches them, gets the SPA's index.html
+    // back (which starts with "<"), and throws "Unexpected token '<'".
+    doc = doc.replace(/<link[^>]*href=["'](?:\.?\/?)style\.css["'][^>]*>/gi, "");
+    doc = doc.replace(/<script[^>]*src=["'](?:\.?\/?)script\.js["'][^>]*>\s*<\/script>/gi, "");
+
     const injectedCss = css ? `<style>${css}</style>` : "";
     const injectedScript = script ? `<script>${script}</script>` : "";
 
