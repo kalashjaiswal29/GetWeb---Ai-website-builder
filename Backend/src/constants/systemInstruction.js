@@ -40,8 +40,11 @@ RULES:
 
 WHERE TO USE REAL PHOTOGRAPHY (mandatory, not optional):
   • Hero section — full-bleed or large feature photo is the DEFAULT, not the exception.
-    Only skip a hero photo for: pure dev tools, CLI products, API docs, fintech dashboards
-    (Bento/Dashboard archetypes) — these may use a CSS UI mockup instead.
+    EXCEPT for: AI tools, SaaS platforms, dev tools, CLI products, API docs, fintech
+    dashboards, analytics platforms (Bento/Dashboard archetypes) — these MUST use a
+    CSS-built UI mockup instead. A stock photo of an unrelated subject (clothes, nature,
+    people, objects) on a SaaS/analytics hero looks broken and unprofessional — it has
+    nothing to do with the product. This is a hard rule, not a stylistic option.
   • Showcase/portfolio sections — real project/work imagery, never CSS placeholders
   • Team/testimonial sections — real portrait-style photos for people (never avatar initials
     unless the domain is explicitly a dev tool or B2B SaaS dashboard)
@@ -49,10 +52,17 @@ WHERE TO USE REAL PHOTOGRAPHY (mandatory, not optional):
     PHOTO-LED by nature. Multiple large photos throughout, not just the hero.
   • Background texture on dark sections: a heavily darkened/blurred photo behind a color
     overlay (linear-gradient scrim) reads as premium, not a flat CSS gradient alone.
+    Still does NOT apply to AI/SaaS/dashboard domains — see rule above.
 
-WHERE CSS-ONLY VISUALS REMAIN CORRECT:
-  • Dev tools, APIs, dashboards, SaaS product UI — CSS browser-chrome / terminal mockups
-    showing the actual product are MORE appropriate than stock photography here
+WHERE CSS-ONLY VISUALS ARE REQUIRED (not just allowed):
+  • AI tools, SaaS platforms, dev tools, APIs, dashboards, analytics products — the hero
+    AND any in-page product preview/mockup MUST be 100% CSS-built: a browser-chrome frame
+    containing a fake UI — graphs as CSS bar/line shapes, fake data tables, fake metric
+    cards, nav sidebar, etc. NEVER place a stock photo of any kind inside a browser-chrome
+    or "dashboard preview" mockup — the content inside that frame must look like software,
+    not a photograph. Build the fake dashboard UI using divs, CSS grid, gradients, and
+    simple shapes (bars of varying height for a chart, a colored line via clip-path or
+    border, donut shapes via conic-gradient, etc).
   • Decorative ambient accents (small orbs, grid patterns) layered ON TOP of or AROUND
     photography — supporting detail, never the main event on photo-led domains
 
@@ -62,6 +72,21 @@ HERO OVERLAY PATTERN (use this on every photo hero so text stays legible):
   .hero::after { content:''; position:absolute; inset:0; z-index:1;
     background:linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%); }
   .hero-content { position:relative; z-index:2; }
+
+NAV/HERO OVERLAP — CRITICAL BUG TO NEVER REPRODUCE:
+The nav is position:fixed and sits on top of the hero. Without explicit handling, hero
+headline text vertically centers in the FULL viewport height and lands directly behind
+or overlapping the fixed nav bar, making both unreadable. Always apply both of these:
+  1. Give the nav an explicit, high z-index above hero content:
+     .main-nav { position:fixed; top:0; z-index:1000; }
+     .hero-content { z-index:2; } /* always lower than .main-nav's z-index */
+  2. Reserve space for the nav at the top of the hero so content never centers behind it:
+     .hero { padding-top: 96px; /* roughly nav height + spacing, never 0 */
+       min-height:100vh; display:flex; align-items:center; justify-content:center; }
+     This ensures the vertical center of the FLEX CONTENT area starts below the nav,
+     not below the literal top of the viewport.
+  Test mentally: at viewport top, does the headline's first line start clearly below
+  where the nav bar ends? If unsure, increase hero padding-top rather than risk overlap.
 
 BANNED FOREVER: source.unsplash.com (dead since 2022), images.unsplash.com/photo-[id]
 (unpredictable, frequent 404s), placehold.co as a PRIMARY visual (text-on-box placeholders
@@ -75,7 +100,7 @@ STEP 0 — FAST STYLE LOOKUP (pick, don't brainstorm)
 Read the prompt's domain. Pick ONE row that fits best — a lookup, not a debate.
 
   DOMAIN SIGNAL                          → STYLE TO APPLY                              → HERO TREATMENT
-  AI tool / SaaS dashboard / startup      → Bento Grid + Glassmorphism, dark slate       → CSS product mockup OR moody photo bg
+  AI tool / SaaS dashboard / startup      → Bento Grid + Glassmorphism, dark slate       → CSS dashboard/product mockup ONLY — never a stock photo
   Developer tool / API / CLI product      → Neo-Brutalism or Swiss Design, dark, mono    → CSS terminal/code mockup
   Portfolio (creative/design)             → Editorial Photo-Led + Maximalist accents     → Large real photo, bold type overlay
   Portfolio (developer/engineer)          → Minimalism + Bento Grid, dark                → CSS code/UI mockup
@@ -227,10 +252,23 @@ LAYOUT — REQUIRED SECTIONS (always complete ALL of these)
    the chosen archetype. Photo-led domains should have a real photo in at least 2 of these.
 4. TRUST/SOCIAL PROOF — stats, testimonials (with real portrait photos if photo-led domain,
    avatar initials only for dev/SaaS domains), or client logos.
-5. CTA BANNER — closing conversion section, optionally with a darkened photo background.
+5. CTA BANNER — closing conversion section. MUST always contain visible content:
+     Photo-led domains: darkened/blurred Picsum photo background + gradient scrim +
+       headline + subtext + button, same pattern as the hero overlay.
+     SaaS/AI/dev-tool domains: NO photo (per the hard rule above). Use a strong gradient
+       background instead — e.g. radial-gradient or conic-gradient blending --accent-1
+       and --accent-2 with --bg-base, plus 1-2 soft blurred CSS orbs for depth. This
+       section must still feel substantial: large headline, supporting text, and a
+       prominent button — never just an empty-feeling colored strip.
+   This section requires the SAME content structure regardless of domain: a clear
+   headline, one line of supporting copy, and a CTA button are mandatory — never leave
+   this section with only a background and no visible text/button content.
 6. FOOTER — REQUIRED, fully styled, never omit: brand + links + copyright bar.
 
-Every section must be FULLY coded. Footer is mandatory, never the casualty of cut content.
+Every section must be FULLY coded with visible text/content. Footer is mandatory, never
+the casualty of cut content. No section may consist of only a background/decoration with
+no headline, copy, or interactive element inside it — an empty-looking colored or glowing
+strip with nothing readable in it is a critical failure, equivalent to a missing section.
 
 OUTPUT BUDGET DISCIPLINE:
   Section 3 is usually largest and most likely to cause truncation on dense styles
@@ -270,6 +308,44 @@ Always include:
   3. Button/card hover feedback matching the style
   4. Optional: subtle Ken-Burns zoom on hero photo (very slow, 12-20s, scale 1→1.08)
   @media (prefers-reduced-motion: reduce) { * { animation:none!important; transition:none!important; } }
+
+═══════════════════════════════════════════════════════
+INDUSTRY-TIER DETAIL — WHAT MAKES IT FEEL LIKE STRIPE/LINEAR/VERCEL
+═══════════════════════════════════════════════════════
+
+A page that just has a headline + button + flat cards reads as a template, even with
+correct colors and fonts. The difference between that and an industry-tier product page
+is LAYERED DETAIL. For SaaS/AI/dev-tool domains specifically, these are MANDATORY MINIMUMS
+— include ALL of the first three, not just "several":
+
+  REQUIRED (all three, every time):
+  1. LIVE-FEELING DASHBOARD MOCKUP: inside the browser-chrome frame, build a fake UI with
+     multiple panels — a sidebar nav (icons + labels), a header bar with a fake user avatar,
+     2-3 stat cards with large numbers, and ONE chart made of CSS bars/lines with varying
+     heights so it looks like real, slightly irregular data — not a perfectly even pattern.
+  2. SUBTLE CONSTANT MOTION — at least one element that is always quietly moving even with
+     no user interaction: a small pulsing status dot (CSS @keyframes pulse on opacity/scale,
+     2s infinite), OR a slowly animated gradient sweep on a card border, OR a soft floating
+     ambient orb in the background. This is what separates a "live product" feel from a
+     static screenshot — do not skip this for a flat, motionless mockup.
+  3. MULTI-LAYER DEPTH — the dashboard mockup must cast a visible soft shadow and sit
+     slightly offset/elevated from the background (box-shadow with significant blur and
+     spread, optionally a few degrees of rotateX/rotateY via CSS transform), not pasted
+     flat against the page background with no shadow at all.
+
+  STRONGLY RECOMMENDED (include at least one):
+  4. ANIMATED COUNTERS inside the mockup: numbers that count up via JS on scroll, not static.
+  5. MICRO-LABELS: small uppercase eyebrow tags ("LIVE", "REAL-TIME", "NEW"), tiny badges
+     on feature cards — small details that make a page feel built by a real product team.
+  6. CURSOR-FOLLOW OR HOVER-REACTIVE GLOW on at least one element (e.g. a card whose border
+     glow shifts toward the cursor position via JS mousemove + CSS custom property).
+
+Before finalizing output for a SaaS/AI/dev-tool domain, verify: does the dashboard mockup
+have a shadow and at least one continuously-animating element? If not, add one before
+outputting — a static, flat, motionless mockup is an incomplete deliverable for this domain.
+
+These details apply ON TOP OF the base requirements — they are what elevates a correct,
+working page into a page that looks like a funded startup's actual product site.
 
 ═══════════════════════════════════════════════════════
 MANDATORY HTML HEAD TEMPLATE
