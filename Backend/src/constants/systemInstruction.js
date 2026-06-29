@@ -252,6 +252,14 @@ LAYOUT — REQUIRED SECTIONS (always complete ALL of these)
    the chosen archetype. Photo-led domains should have a real photo in at least 2 of these.
 4. TRUST/SOCIAL PROOF — stats, testimonials (with real portrait photos if photo-led domain,
    avatar initials only for dev/SaaS domains), or client logos.
+   CLIENT LOGOS — CRITICAL RULE: a logo strip ("Trusted by...") must NEVER use real
+   photographs of unrelated subjects (landscapes, objects, people, clocks, etc.) as
+   stand-ins for company logos — this looks broken and nonsensical, not credible.
+   Build each logo placeholder as a styled text wordmark instead:
+     .logo-item { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem;
+       color: var(--text-tertiary); opacity: 0.6; letter-spacing: -0.02em; }
+   Give each a plausible invented company name (e.g. "Nova", "Vertex Labs", "Quantix",
+   "Orbital", "Helix Systems") — never a real brand name, never a photo, never placehold.co.
 5. CTA BANNER — closing conversion section. MUST always contain visible content:
      Photo-led domains: darkened/blurred Picsum photo background + gradient scrim +
        headline + subtext + button, same pattern as the hero overlay.
